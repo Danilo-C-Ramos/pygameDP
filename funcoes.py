@@ -1,5 +1,5 @@
 import pygame as py
-
+from config import screen, WIDTH, HEIGHT
 # Função para a Tela de Início
 def tela_inicio(screen, WIDTH, HEIGHT):
     imagem_fundo_inicio = py.image.load("assets/INICIO.jpg")
@@ -95,3 +95,79 @@ def carregar_imagens_monstro():
         img_list.append(py.transform.scale(py.image.load(f"assets/Mon tomando/hurt/hurt_{i}.png").convert_alpha(), (768, 448)))
     mon_images['hit'] = img_list
     return mon_images
+
+
+
+def andar(demon, mon, event):
+    if event.type == py.KEYDOWN:
+            if demon.vida > 0:
+                if event.key == py.K_LEFT:
+                    demon.state = 'walking'
+                    demon.x_speed = -10
+                    demon.current_image = 0
+                if event.key == py.K_RIGHT:
+                    demon.state = 'walking'
+                    demon.x_speed = 10
+                    demon.current_image = 0
+                if event.key == py.K_SPACE:
+                    demon.state = 'beating'
+                    demon.current_image = 0
+            
+            if mon.vida > 0:
+                if event.key == py.K_d:
+                    mon.state = 'walking'
+                    mon.x_speed = 10
+                    mon.current_image = 0
+                if event.key == py.K_a:
+                    mon.state = 'walking'
+                    mon.x_speed = -10
+                    mon.current_image = 0
+                if event.key == py.K_r:
+                    mon.state = 'beating'
+                    mon.current_image = 0
+
+            if event.type == py.KEYUP:
+                if event.key in [py.K_LEFT, py.K_RIGHT]:
+                    demon.state = 'idle'
+                    demon.x_speed = 0
+                    demon.current_image = 0
+                if event.key in [py.K_d, py.K_a]:
+                    mon.state = 'idle'
+                    mon.x_speed = 0
+                    mon.current_image = 0
+
+
+# Função de colisão para dano
+def verificar_colisao(demon, mon):
+    if demon.vida > 0 and mon.vida > 0:
+        if abs(demon.posicao_x - mon.posicao_x) < 300:
+            if demon.state == 'beating' and mon.state != 'hit':
+                mon.state = 'hit'
+                mon.current_image = 0
+                mon.hit_tempo = 0
+                mon.vida -= 6
+            elif mon.state == 'beating' and demon.state != 'hit':
+                demon.state = 'hit'
+                demon.current_image = 0
+                demon.hit_tempo = 0
+                demon.vida -= 9
+
+# Função para desenhar a tela e as barras de vida
+def limpa_screen(demon, mon):
+    screen.blit(imagem_fundo, (0, 0))
+
+    # Desenhando as barras de vida
+    mon_health_ratio = mon.vida / 100
+    py.draw.rect(screen, (255, 0, 0), (50, 50, 500, 25))  # Barra de vida vermelha (fundo)
+    py.draw.rect(screen, (0, 255, 0), (50, 50, 500 * mon_health_ratio, 25))  # Barra de vida verde
+
+    demon_health_ratio = demon.vida / 100
+    py.draw.rect(screen, (255, 0, 0), (WIDTH - 550, 50, 500, 25))  # Barra de vida vermelha (fundo)
+    py.draw.rect(screen, (0, 255, 0), (WIDTH - 550, 50, 500 * demon_health_ratio, 25))  # Barra de vida verde
+
+    # Desenha os personagens
+    if demon.vida > 0:
+        demon.desenhar()
+    if mon.vida > 0:
+        mon.desenhar()
+
