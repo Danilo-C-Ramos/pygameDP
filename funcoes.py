@@ -1,5 +1,6 @@
 import pygame as py
-from config import screen, WIDTH, HEIGHT
+from config import screen, WIDTH, HEIGHT, imagem_fundo
+
 # Função para a Tela de Início
 def tela_inicio(screen, WIDTH, HEIGHT):
     imagem_fundo_inicio = py.image.load("assets/INICIO.jpg")
@@ -31,6 +32,8 @@ def tela_inicio(screen, WIDTH, HEIGHT):
                 if botao_x <= mouse_x <= botao_x + botao_largura and botao_y <= mouse_y <= botao_y + botao_altura:
                     esperando = False
 
+#def quit(event):
+    
 # Função para a Tela de Fim
 def tela_fim(screen, WIDTH, HEIGHT):
     imagem_fundo_fim = py.image.load("Tela fim.webp")
@@ -96,8 +99,6 @@ def carregar_imagens_monstro():
     mon_images['hit'] = img_list
     return mon_images
 
-
-
 def andar(demon, mon, event):
     if event.type == py.KEYDOWN:
             if demon.vida > 0:
@@ -126,15 +127,15 @@ def andar(demon, mon, event):
                     mon.state = 'beating'
                     mon.current_image = 0
 
-            if event.type == py.KEYUP:
-                if event.key in [py.K_LEFT, py.K_RIGHT]:
-                    demon.state = 'idle'
-                    demon.x_speed = 0
-                    demon.current_image = 0
-                if event.key in [py.K_d, py.K_a]:
-                    mon.state = 'idle'
-                    mon.x_speed = 0
-                    mon.current_image = 0
+    if event.type == py.KEYUP:
+        if event.key in [py.K_LEFT, py.K_RIGHT]:
+            demon.state = 'idle'
+            demon.x_speed = 0
+            demon.current_image = 0
+        if event.key in [py.K_d, py.K_a]:
+            mon.state = 'idle'
+            mon.x_speed = 0
+            mon.current_image = 0
 
 
 # Função de colisão para dano

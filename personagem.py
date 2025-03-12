@@ -1,5 +1,5 @@
 import pygame as py
-from config import screen, WIDTH, HEIGHT
+from config import screen, WIDTH, HEIGHT, imagem_fundo
 
 class Personagem(py.sprite.Sprite):
     def __init__(self, nome, nome_imagem, posicao_x, posicao_y, imagens):
