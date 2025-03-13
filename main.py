@@ -1,11 +1,13 @@
 import pygame as py
 from pygame import mixer
 from funcoes import *
-from config import screen, WIDTH, HEIGHT, FPS, clock, imagem_fundo
+from config import screen, WIDTH, HEIGHT, FPS, clock
 from personagem import *
+from carregarTela import *
 
 # Chamando a tela de início
-tela_inicio(screen, WIDTH, HEIGHT)
+telas = carregarTela(screen, WIDTH, HEIGHT)
+telas.tela_inicio()
 
 # Carregar as imagens dos personagens
 demon_images = carregar_imagens_demonio()
@@ -38,7 +40,7 @@ while game:
     py.display.update()
 
 # Fechar o jogo
-tela_fim(screen, WIDTH, HEIGHT)
+telas.tela_fim()
 mixer.music.stop()
 mixer.quit()
 py.quit()

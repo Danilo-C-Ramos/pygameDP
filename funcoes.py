@@ -1,5 +1,6 @@
 import pygame as py
 from config import screen, WIDTH, HEIGHT, imagem_fundo
+from personagem import Personagem
 
 # Função para a Tela de Início
 def tela_inicio(screen, WIDTH, HEIGHT):
@@ -32,8 +33,7 @@ def tela_inicio(screen, WIDTH, HEIGHT):
                 if botao_x <= mouse_x <= botao_x + botao_largura and botao_y <= mouse_y <= botao_y + botao_altura:
                     esperando = False
 
-#def quit(event):
-    
+
 # Função para a Tela de Fim
 def tela_fim(screen, WIDTH, HEIGHT):
     imagem_fundo_fim = py.image.load("Tela fim.webp")
@@ -48,6 +48,9 @@ def tela_fim(screen, WIDTH, HEIGHT):
             if event.type == py.QUIT or event.type == py.MOUSEBUTTONDOWN:
                 esperando = False
     py.quit()
+
+
+
 
 # Função de animação para o demon
 def carregar_imagens_demonio():
